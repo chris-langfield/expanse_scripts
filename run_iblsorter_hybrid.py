@@ -1,3 +1,7 @@
+# source ~/Documents/PYTHON/ibl-sorter/.venv/bin/activate
+# module load cuda12.2/toolkit/12.2.2
+
+
 import shutil
 from pathlib import Path
 import sys
@@ -41,7 +45,7 @@ nc = h['x'].size
 params = KilosortParams()
 params.probe = iblsorter.io.probes.np1_probe()
 params.probe["NchanTOT"] = nc
-params.probe["sample2volt"] = sr.sample2volts[0]
+params.probe["sample2volt"] = 1.0 #sr.sample2volts[0]
 params.minFR = 0
 params.minfr_goodchannels = 0
 params.probe.ind = h["ind"]
@@ -70,6 +74,6 @@ scratch_dir = Path("/tmp/pyks").joinpath(pid)
 shutil.rmtree(scratch_dir, ignore_errors=True)
 scratch_dir.mkdir(exist_ok=True, parents=True)
 
-run(str(bin_file), dir_path=str(scratch_dir), output_dir=str(output_dir), **params)
+run(str(bin_file), dir_path=str(scratch_dir), output_dir=str(output_dir), do_preprocessing=False, **params)
 
 
